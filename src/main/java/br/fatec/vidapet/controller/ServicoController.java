@@ -16,26 +16,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.fatec.vidapet.model.Funcionario;
-import br.fatec.vidapet.service.FuncionarioService;
+import br.fatec.vidapet.model.Servico;
+import br.fatec.vidapet.service.ServicoService;
 
 @RestController
-@RequestMapping("/funcionarios")
-public class FuncionarioController implements ControllerInterface<Funcionario> {
+@RequestMapping("/servicos")
+public class ServicoController implements ControllerInterface<Servico>{
 	
 	@Autowired
-	private FuncionarioService service;
+	private ServicoService service;
 	
 	@Override
 	@GetMapping
-	public ResponseEntity<List<Funcionario>> getAll(){
+	public ResponseEntity<List<Servico>> getAll(){
 		return ResponseEntity.ok(service.findAll());
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getOne(@PathVariable("id") Long id){
-		Funcionario obj = service.findById(id);
+		Servico obj = service.findById(id);
 		if(obj != null) {
 			return ResponseEntity.ok(obj);
 		}
@@ -44,15 +44,15 @@ public class FuncionarioController implements ControllerInterface<Funcionario> {
 	
 	@Override
 	@PostMapping
-	public ResponseEntity<Funcionario> post(@RequestBody Funcionario obj){
+	public ResponseEntity<Servico> post(@RequestBody Servico obj){
 		service.create(obj);
-		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/ID={id}").buildAndExpand(obj.getId()).toUri();
+		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(location).body(obj);
 	}
 	
 	@Override
 	@PutMapping
-	public ResponseEntity<?> put(@RequestBody Funcionario obj){
+	public ResponseEntity<?> put(@RequestBody Servico obj){
 		if(service.update(obj)) {
 			return ResponseEntity.ok(obj);
 		}

@@ -6,36 +6,36 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.vidapet.model.Funcionario;
-import br.fatec.vidapet.repository.FuncionarioRepository;
+import br.fatec.vidapet.model.Servico;
+import br.fatec.vidapet.repository.ServicoRepository;
 
 @Service
-public class FuncionarioService implements ServiceInterface<Funcionario>{
+public class ServicoService implements ServiceInterface<Servico>{
 	
 	@Autowired
-	private FuncionarioRepository repository;
+	private ServicoRepository repository;
 	
-	public FuncionarioService() {};
+	public ServicoService() {};
 	
 	@Override
-	public Funcionario create(Funcionario obj) {
+	public Servico create(Servico obj) {
 		repository.save(obj);
 		return obj;
 	}
 	
 	@Override
-	public Funcionario findById(Long id) {
-		Optional<Funcionario> obj = repository.findById(id);
+	public Servico findById(Long id) {
+		Optional<Servico> obj = repository.findById(id);
 		return obj.orElse(null);
 	}
 	
 	@Override
-	public List<Funcionario> findAll() {
+	public List<Servico> findAll() {
 		return repository.findAll();
 	}
 	
 	@Override
-	public boolean update(Funcionario obj) {
+	public boolean update(Servico obj) {
 		if(repository.existsById(obj.getId())) {
 			repository.save(obj);
 			return true;

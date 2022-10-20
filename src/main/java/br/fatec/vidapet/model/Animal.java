@@ -3,6 +3,11 @@ package br.fatec.vidapet.model;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Animal extends AbstractEntity {
@@ -20,6 +25,8 @@ public class Animal extends AbstractEntity {
 	private PelagemAnimal pelagem;
 	private Float peso;
 	//foto;
+	@ManyToOne(fetch= FetchType.LAZY)
+	private Cliente cliente;
 	
 	public Animal() {}
 
@@ -85,6 +92,16 @@ public class Animal extends AbstractEntity {
 
 	public void setPeso(Float peso) {
 		this.peso = peso;
+	}
+	
+	@JsonIgnore
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	@JsonProperty
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public static long getSerialversionuid() {

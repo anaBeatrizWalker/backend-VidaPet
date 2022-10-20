@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-
 @Entity
 public class Cliente extends AbstractEntity {
 	private static final long serialVersionUID = 1L;

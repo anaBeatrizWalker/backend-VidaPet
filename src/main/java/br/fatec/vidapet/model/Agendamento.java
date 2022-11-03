@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +29,9 @@ public class Agendamento extends AbstractEntity{
 	@Temporal(TemporalType.TIME)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm", timezone="GMT-3")
 	private Date horario;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Animal animal;
 	
 	public Agendamento() {}
 
@@ -60,6 +65,14 @@ public class Agendamento extends AbstractEntity{
 
 	public void setHorario(Date horario) {
 		this.horario = horario;
+	}
+	
+	public Animal getAnimal() {
+		return animal;
+	}
+
+	public void setAnimal(Animal animal) {
+		this.animal = animal;
 	}
 
 	public static long getserialVersionUID() {

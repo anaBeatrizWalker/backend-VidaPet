@@ -51,4 +51,20 @@ public class AgendamentoService implements ServiceInterface<Agendamento>{
 		}
 		return false;
 	}
+	
+	public List<Agendamento> listarPorFuncionario(String email){
+		return repository.listarPorFuncionario(email);
+	}
+	
+	public List<Agendamento> listarPeloDiaAtual(){
+		return repository.listarPeloDiaAtual();
+	}
+	
+	public List<Agendamento> listarPelaSemanaAtual(){
+		return repository.listarPelaSemanaAtual();
+	}
+	
+	public List<Agendamento> listarPeloMesAtual(){
+		return repository.listarPeloMesAtual();
+	}
 }

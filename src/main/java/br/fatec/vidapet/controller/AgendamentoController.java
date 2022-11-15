@@ -20,7 +20,7 @@ import br.fatec.vidapet.model.Agendamento;
 import br.fatec.vidapet.service.AgendamentoService;
 
 @RestController
-@RequestMapping("/agendamentos")
+@RequestMapping("/agenda")
 public class AgendamentoController implements ControllerInterface<Agendamento>{
 	
 	@Autowired
@@ -66,5 +66,25 @@ public class AgendamentoController implements ControllerInterface<Agendamento>{
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+	
+	@GetMapping(value = "/funcionario/{email}")
+	public ResponseEntity<List<Agendamento>> listarPorFuncionario(@PathVariable("email") String email){
+		return ResponseEntity.ok(service.listarPorFuncionario(email));
+	}
+	
+	@GetMapping(value = "/dia_atual")
+	public ResponseEntity<List<Agendamento>> listarPeloDiaAtual(){
+		return ResponseEntity.ok(service.listarPeloDiaAtual());
+	}
+	
+	@GetMapping(value = "/semana_atual")
+	public ResponseEntity<List<Agendamento>> listarPelaSemanaAtual(){
+		return ResponseEntity.ok(service.listarPelaSemanaAtual());
+	}
+	
+	@GetMapping(value = "/mes_atual")
+	public ResponseEntity<List<Agendamento>> listarPeloMesAtual(){
+		return ResponseEntity.ok(service.listarPeloMesAtual());
 	}
 }

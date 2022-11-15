@@ -22,7 +22,7 @@ public class Agendamento extends AbstractEntity{
 	
 	private String observacao;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	private Calendar data;
 	

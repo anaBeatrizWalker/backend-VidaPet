@@ -1,58 +1,30 @@
 package br.fatec.vidapet.model;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.br.CPF;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo")
 public abstract class Usuario extends AbstractEntity{
 	private static final long serialVersionUID = 1L;
 	
-	@NotBlank 
-	@Size(min = 4, max = 70)
+	@Column(length=70, nullable=false)
 	private String nome;
 	
-	@Email
+	@Column(length = 70, nullable=false, unique = true)
 	private String email;
 	
-	@CPF
+	@Column(length = 11, nullable=false, unique = true)
 	private String cpf;
-	
-	public Usuario () {}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

@@ -1,7 +1,10 @@
 package br.fatec.vidapet.controller;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,44 +19,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.fatec.vidapet.dto.AdministradorDTO;
+import br.fatec.vidapet.mapper.AdministradorMapper;
 import br.fatec.vidapet.model.Administrador;
 import br.fatec.vidapet.service.AdministradorService;
 
 @RestController
 @RequestMapping("/adm")
-public class AdministradorController implements ControllerInterface<Administrador>{
+public class AdministradorController implements ControllerInterface<AdministradorDTO>{
 	
 	@Autowired
 	private AdministradorService service;
 	
+	@Autowired 
+	private AdministradorMapper mapper;
+	
 	@Override
 	@GetMapping
-	public ResponseEntity<List<Administrador>> getAll(){
-		return ResponseEntity.ok(service.findAll());
+	public ResponseEntity<List<AdministradorDTO>> getAll(){
+		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getOne(@PathVariable("id") Long id){
+	public ResponseEntity<AdministradorDTO> getOne(@PathVariable("id") Long id){
 		Administrador obj = service.findById(id);
 		if(obj != null) {
-			return ResponseEntity.ok(obj);
+			return ResponseEntity.ok(mapper.toDTO(obj));
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override
 	@PostMapping
-	public ResponseEntity<Administrador> post(@RequestBody Administrador obj){
-		service.create(obj);
-		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(location).body(obj);
+	public ResponseEntity<AdministradorDTO> post(@Valid @RequestBody AdministradorDTO obj) throws URISyntaxException{
+		Administrador adm = service.create(mapper.toEntity(obj));
+		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(adm.getId()).toUri();
+		return ResponseEntity.created(location).body(mapper.toDTO(adm));
 	}
 	
 	@Override
 	@PutMapping
-	public ResponseEntity<?> put(@RequestBody Administrador obj){
-		if(service.update(obj)) {
+	public ResponseEntity<AdministradorDTO> put(@Valid @RequestBody AdministradorDTO obj){
+		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,9 +69,9 @@ public class AdministradorController implements ControllerInterface<Administrado
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id){
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
-			return ResponseEntity.ok().build();
+			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}

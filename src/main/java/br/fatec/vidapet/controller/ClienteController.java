@@ -1,7 +1,10 @@
 package br.fatec.vidapet.controller;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,44 +19,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.fatec.vidapet.dto.ClienteDTO;
+import br.fatec.vidapet.mapper.ClienteMapper;
 import br.fatec.vidapet.model.Cliente;
 import br.fatec.vidapet.service.ClienteService;
 
 @RestController
 @RequestMapping("/clientes")
-public class ClienteController implements ControllerInterface<Cliente>{
+public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Autowired
 	private ClienteService service;
 	
+	@Autowired 
+	private ClienteMapper mapper;
+	
 	@Override
 	@GetMapping
-	public ResponseEntity<List<Cliente>> getAll(){
-		return ResponseEntity.ok(service.findAll());
+	public ResponseEntity<List<ClienteDTO>> getAll(){
+		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getOne(@PathVariable("id") Long id){
+	public ResponseEntity<ClienteDTO> getOne(@PathVariable("id") Long id){
 		Cliente obj = service.findById(id);
 		if(obj != null) {
-			return ResponseEntity.ok(obj);
+			return ResponseEntity.ok(mapper.toDTO(obj));
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override
 	@PostMapping
-	public ResponseEntity<Cliente> post(@RequestBody Cliente obj){
-		service.create(obj);
-		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(location).body(obj);
+	public ResponseEntity<ClienteDTO> post(@Valid @RequestBody ClienteDTO obj) throws URISyntaxException{
+		Cliente cliente = service.create(mapper.toEntity(obj));
+		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId()).toUri();
+		return ResponseEntity.created(location).body(mapper.toDTO(cliente));
 	}
 	
 	@Override
 	@PutMapping
-	public ResponseEntity<?> put(@RequestBody Cliente obj){
-		if(service.update(obj)) {
+	public ResponseEntity<ClienteDTO> put(@Valid @RequestBody ClienteDTO obj){
+		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,9 +69,9 @@ public class ClienteController implements ControllerInterface<Cliente>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id){
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
-			return ResponseEntity.ok().build();
+			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}

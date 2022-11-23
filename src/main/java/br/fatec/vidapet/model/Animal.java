@@ -1,5 +1,6 @@
 package br.fatec.vidapet.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,102 +10,61 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@NoArgsConstructor
 public class Animal extends AbstractEntity {
+	@Getter
 	private static final long serialVersionUID = 1L;
 	
+	@Getter
+	@Setter
+	@Column(length=50, nullable=false)
 	private String nome;
-	private String tipo;
+	
+	@Getter
+	@Setter
+	@Column(length=50, nullable=false)
+	private String especie;
+	
+	@Getter
+	@Setter
+	@Column(length=50)
 	private String raça;
+	
+	@Getter
+	@Setter
+	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private SexoAnimal sexo;
+	
+	@Getter
+	@Setter
 	private Integer idade;
+	
+	@Getter
+	@Setter
+	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private PorteAnimal porte;
+	
+	@Getter
+	@Setter
+	@Column(nullable=false)
 	@Enumerated(EnumType.STRING)
 	private PelagemAnimal pelagem;
+	
+	@Getter
+	@Setter
 	private Float peso;
+	
 	//foto;
+	
+	@Getter(onMethod = @__(@JsonIgnore))
+	@Setter(onMethod = @__(@JsonProperty)) 
 	@ManyToOne(fetch= FetchType.LAZY)
 	private Cliente cliente;
-	
-	public Animal() {}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getRaça() {
-		return raça;
-	}
-
-	public void setRaça(String raça) {
-		this.raça = raça;
-	}
-
-	public SexoAnimal getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(SexoAnimal sexo) {
-		this.sexo = sexo;
-	}
-
-	public Integer getIdade() {
-		return idade;
-	}
-
-	public void setIdade(Integer idade) {
-		this.idade = idade;
-	}
-
-	public PorteAnimal getPorte() {
-		return porte;
-	}
-
-	public void setPorte(PorteAnimal porte) {
-		this.porte = porte;
-	}
-
-	public PelagemAnimal getPelagem() {
-		return pelagem;
-	}
-
-	public void setPelagem(PelagemAnimal pelagem) {
-		this.pelagem = pelagem;
-	}
-
-	public Float getPeso() {
-		return peso;
-	}
-
-	public void setPeso(Float peso) {
-		this.peso = peso;
-	}
-	
-	@JsonIgnore
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	@JsonProperty
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

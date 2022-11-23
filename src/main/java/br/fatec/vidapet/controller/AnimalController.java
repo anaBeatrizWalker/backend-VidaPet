@@ -1,7 +1,10 @@
 package br.fatec.vidapet.controller;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,44 +19,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.fatec.vidapet.dto.AnimalDTO;
+import br.fatec.vidapet.mapper.AnimalMapper;
 import br.fatec.vidapet.model.Animal;
 import br.fatec.vidapet.service.AnimalService;
 
 @RestController
 @RequestMapping("/animais")
-public class AnimalController implements ControllerInterface<Animal>{
+public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Autowired
 	private AnimalService service;
 	
+	@Autowired 
+	private AnimalMapper mapper; 
+	
 	@Override
 	@GetMapping
-	public ResponseEntity<List<Animal>> getAll(){
-		return ResponseEntity.ok(service.findAll());
+	public ResponseEntity<List<AnimalDTO>> getAll(){
+		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getOne(@PathVariable("id") Long id){
+	public ResponseEntity<AnimalDTO> getOne(@PathVariable("id") Long id){
 		Animal obj = service.findById(id);
 		if(obj != null) {
-			return ResponseEntity.ok(obj);
+			return ResponseEntity.ok(mapper.toDTO(obj));
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override
 	@PostMapping
-	public ResponseEntity<Animal> post(@RequestBody Animal obj){
-		service.create(obj);
-		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(location).body(obj);
+	public ResponseEntity<AnimalDTO> post(@Valid @RequestBody AnimalDTO obj) throws URISyntaxException{
+		Animal animal = service.create(mapper.toEntity(obj));
+		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(animal.getId()).toUri();
+		return ResponseEntity.created(location).body(mapper.toDTO(animal));
 	}
 	
 	@Override
 	@PutMapping
-	public ResponseEntity<?> put(@RequestBody Animal obj){
-		if(service.update(obj)) {
+	public ResponseEntity<AnimalDTO> put(@Valid @RequestBody AnimalDTO obj){
+		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,7 +69,7 @@ public class AnimalController implements ControllerInterface<Animal>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id){
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.ok().build();
 		}

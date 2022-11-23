@@ -1,7 +1,10 @@
 package br.fatec.vidapet.controller;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,44 +19,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.fatec.vidapet.dto.AgendamentoDTO;
+import br.fatec.vidapet.mapper.AgendamentoMapper;
 import br.fatec.vidapet.model.Agendamento;
 import br.fatec.vidapet.service.AgendamentoService;
 
 @RestController
 @RequestMapping("/agenda")
-public class AgendamentoController implements ControllerInterface<Agendamento>{
+public class AgendamentoController implements ControllerInterface<AgendamentoDTO>{
 	
 	@Autowired
 	private AgendamentoService service;
 	
+	@Autowired 
+	private AgendamentoMapper mapper; 
+	
 	@Override
 	@GetMapping
-	public ResponseEntity<List<Agendamento>> getAll(){
-		return ResponseEntity.ok(service.findAll());
+	public ResponseEntity<List<AgendamentoDTO>> getAll(){
+		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getOne(@PathVariable("id") Long id){
+	public ResponseEntity<AgendamentoDTO> getOne(@PathVariable("id") Long id){
 		Agendamento obj = service.findById(id);
 		if(obj != null) {
-			return ResponseEntity.ok(obj);
+			return ResponseEntity.ok(mapper.toDTO(obj));
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override
 	@PostMapping
-	public ResponseEntity<Agendamento> post(@RequestBody Agendamento obj){
-		service.create(obj);
-		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(location).body(obj);
+	public ResponseEntity<AgendamentoDTO> post(@Valid @RequestBody AgendamentoDTO obj) throws URISyntaxException{
+		Agendamento agendamento = service.create(mapper.toEntity(obj));
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(agendamento.getId()).toUri();
+		return ResponseEntity.created(location).body(mapper.toDTO(agendamento));
 	}
 	
 	@Override
 	@PutMapping
-	public ResponseEntity<?> put(@RequestBody Agendamento obj){
-		if(service.update(obj)) {
+	public ResponseEntity<AgendamentoDTO> put(@Valid @RequestBody AgendamentoDTO obj){
+		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,30 +69,42 @@ public class AgendamentoController implements ControllerInterface<Agendamento>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id){
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
-			return ResponseEntity.ok().build();
+			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@GetMapping(value = "/funcionario/{email}")
-	public ResponseEntity<List<Agendamento>> listarPorFuncionario(@PathVariable("email") String email){
-		return ResponseEntity.ok(service.listarPorFuncionario(email));
+	public ResponseEntity<List<AgendamentoDTO>> listarPorFuncionario(@PathVariable("email") String email){
+		List<Agendamento> obj = service.listarPorFuncionario(email); 
+		if (obj != null) 
+			return ResponseEntity.ok(mapper.toDTO(obj));
+		return ResponseEntity.notFound().build(); 
 	}
 	
 	@GetMapping(value = "/dia_atual")
-	public ResponseEntity<List<Agendamento>> listarPeloDiaAtual(){
-		return ResponseEntity.ok(service.listarPeloDiaAtual());
+	public ResponseEntity<List<AgendamentoDTO>> listarPeloDiaAtual(){
+		List<Agendamento> obj = service.listarPeloDiaAtual(); 
+		if (obj != null) 
+			return ResponseEntity.ok(mapper.toDTO(obj));
+		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping(value = "/semana_atual")
-	public ResponseEntity<List<Agendamento>> listarPelaSemanaAtual(){
-		return ResponseEntity.ok(service.listarPelaSemanaAtual());
+	public ResponseEntity<List<AgendamentoDTO>> listarPelaSemanaAtual(){
+		List<Agendamento> obj = service.listarPelaSemanaAtual(); 
+		if (obj != null) 
+			return ResponseEntity.ok(mapper.toDTO(obj));
+		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping(value = "/mes_atual")
-	public ResponseEntity<List<Agendamento>> listarPeloMesAtual(){
-		return ResponseEntity.ok(service.listarPeloMesAtual());
+	public ResponseEntity<List<AgendamentoDTO>> listarPeloMesAtual(){
+		List<Agendamento> obj = service.listarPeloMesAtual(); 
+		if (obj != null) 
+			return ResponseEntity.ok(mapper.toDTO(obj));
+		return ResponseEntity.notFound().build();
 	}
 }

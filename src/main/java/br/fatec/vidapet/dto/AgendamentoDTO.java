@@ -1,46 +1,43 @@
-package br.fatec.vidapet.model;
+package br.fatec.vidapet.dto;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.fatec.vidapet.model.Animal;
+import br.fatec.vidapet.model.Servico;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Agendamento extends AbstractEntity{
-	private static final long serialVersionUID = 1L;
+public class AgendamentoDTO{
+	private Long id;
 	
-	@OneToOne(cascade = {CascadeType.REFRESH})
+	@NotNull
 	private Servico servico;
 	
-	@Column(length=100) 
+	@Size(min = 4, max = 100)
 	private String observacao;
 	
-	@Column(nullable=false)
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	private Calendar data;
-
-	@Column(nullable=false)
+	
+	@NotNull
 	@Temporal(TemporalType.TIME)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm", timezone="GMT-3")
 	private Date horario;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@NotNull
 	private Animal animal;
 }

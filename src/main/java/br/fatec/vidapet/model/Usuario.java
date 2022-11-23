@@ -4,6 +4,11 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -11,8 +16,14 @@ import javax.persistence.InheritanceType;
 public abstract class Usuario extends AbstractEntity{
 	private static final long serialVersionUID = 1L;
 	
+	@NotBlank 
+	@Size(min = 4, max = 70)
 	private String nome;
+	
+	@Email
 	private String email;
+	
+	@CPF
 	private String cpf;
 	
 	public Usuario () {}

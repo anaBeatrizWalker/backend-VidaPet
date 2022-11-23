@@ -51,4 +51,8 @@ public class ServicoService implements ServiceInterface<Servico>{
 		}
 		return false;
 	}
+	
+	public List<Servico> listarServicosOrdenadosAsc() {
+		return repository.listarServicosOrdenadosAsc();
+	}
 }

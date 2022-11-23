@@ -37,7 +37,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	@Override
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
+		return ResponseEntity.ok(mapper.toDTO(service.listarClientesOrdenadosAsc()));
 	}
 	
 	@Override

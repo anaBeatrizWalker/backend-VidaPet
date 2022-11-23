@@ -37,7 +37,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	@Override
 	@GetMapping
 	public ResponseEntity<List<ServicoDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
+		return ResponseEntity.ok(mapper.toDTO(service.listarServicosOrdenadosAsc()));
 	}
 	
 	@Override

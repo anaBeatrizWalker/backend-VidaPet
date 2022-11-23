@@ -22,4 +22,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
 	@Query(value="select * from agendamento where month(data) = month(now()) order by data, horario  asc;", nativeQuery=true)
 	List<Agendamento> listarPeloMesAtual();
 	
+	@Query(value="select * from agendamento order by data, horario  asc;", nativeQuery=true)
+	List<Agendamento> listarAgendaOrdenadaAsc();
 }

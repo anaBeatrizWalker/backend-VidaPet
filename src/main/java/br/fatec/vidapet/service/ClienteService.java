@@ -51,4 +51,8 @@ public class ClienteService implements ServiceInterface<Cliente>{
 		}
 		return false;
 	}
+	
+	public List<Cliente> listarClientesOrdenadosAsc() {
+		return repository.listarClientesOrdenadosAsc();
+	}
 }

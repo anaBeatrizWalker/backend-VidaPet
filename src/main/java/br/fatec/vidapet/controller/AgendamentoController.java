@@ -37,7 +37,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	@Override
 	@GetMapping
 	public ResponseEntity<List<AgendamentoDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
+		return ResponseEntity.ok(mapper.toDTO(service.listarAgendaOrdenadaAsc()));
 	}
 	
 	@Override

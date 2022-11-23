@@ -67,4 +67,8 @@ public class AgendamentoService implements ServiceInterface<Agendamento>{
 	public List<Agendamento> listarPeloMesAtual(){
 		return repository.listarPeloMesAtual();
 	}
+	
+	public List<Agendamento> listarAgendaOrdenadaAsc() {
+		return repository.listarAgendaOrdenadaAsc();
+	}
 }

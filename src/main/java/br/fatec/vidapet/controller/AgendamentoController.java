@@ -86,7 +86,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	
 	@GetMapping(value = "/dia_atual")
 	public ResponseEntity<List<AgendamentoDTO>> listarPeloDiaAtual(){
-		List<Agendamento> obj = service.listarPeloDiaAtual(); 
+		List<Agendamento> obj = service.listarPeloDiaAtual();
 		if (obj != null) 
 			return ResponseEntity.ok(mapper.toDTO(obj));
 		return ResponseEntity.notFound().build();

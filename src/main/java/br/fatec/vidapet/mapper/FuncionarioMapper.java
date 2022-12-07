@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import br.fatec.vidapet.dto.FuncionarioDTO;
 import br.fatec.vidapet.model.Funcionario;
+import lombok.AllArgsConstructor;
 
+@Component
+@AllArgsConstructor
 public class FuncionarioMapper {
 	private ModelMapper modelMapper;
 	

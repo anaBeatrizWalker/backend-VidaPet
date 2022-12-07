@@ -1,9 +1,7 @@
 package br.fatec.vidapet.model;
-
-import javax.persistence.CascadeType;
+ 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +19,4 @@ public class Servico extends AbstractEntity {
 	
 	@Column(nullable=false)
 	private Float preco;
-	
-	@OneToOne(cascade = {CascadeType.ALL})
-	private Funcionario funcionario;
 }

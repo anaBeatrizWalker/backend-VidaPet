@@ -10,7 +10,7 @@ import br.fatec.vidapet.model.Agendamento;
 
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
-	@Query("select a from Agendamento a join a.servico s join s.funcionario f where f.email=?1 order by a.data, a.horario  asc")
+	@Query("select a from Agendamento a join a.funcionario f where f.email=?1 order by a.data, a.horario  asc")
 	List<Agendamento> listarPorFuncionario(String email);
 	
 	@Query(value="select * from agendamento where data = CURRENT_DATE() order by data, horario  asc;", nativeQuery=true)

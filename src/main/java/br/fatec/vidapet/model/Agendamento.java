@@ -26,7 +26,7 @@ public class Agendamento extends AbstractEntity{
 	private static final long serialVersionUID = 1L;
 	
 	@OneToOne(cascade = {CascadeType.REFRESH})
-	private Servico servico;
+	private Funcionario funcionario;
 	
 	@Column(length=100) 
 	private String observacao;

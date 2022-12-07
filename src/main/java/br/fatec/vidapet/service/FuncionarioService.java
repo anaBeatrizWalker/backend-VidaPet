@@ -7,40 +7,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.fatec.vidapet.model.Administrador;
-import br.fatec.vidapet.repository.AdministradorRepository;
+import br.fatec.vidapet.model.Funcionario;
+import br.fatec.vidapet.repository.FuncionarioRepository;
 
 @Service
-public class AdministradorService implements ServiceInterface<Administrador>{
+public class FuncionarioService implements ServiceInterface<Funcionario>{
 	
 	@Autowired
-	private AdministradorRepository repository;
+	private FuncionarioRepository repository;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	public AdministradorService() {};
-
+	public FuncionarioService() {}
+	
 	@Override
-	public Administrador create(Administrador obj) { 
+	public Funcionario create(Funcionario obj) { 
 		obj.setSenha(passwordEncoder.encode(obj.getSenha()));
-		Administrador adm = repository.save(obj); 
-		return adm;
+		Funcionario funcionario = repository.save(obj); 
+		return funcionario;
 	}
 	
 	@Override
-	public Administrador findById(Long id) {
-		Optional<Administrador> obj = repository.findById(id);
+	public Funcionario findById(Long id) {
+		Optional<Funcionario> obj = repository.findById(id);
 		return obj.orElse(null);
 	}
 	
 	@Override
-	public List<Administrador> findAll(){
+	public List<Funcionario> findAll(){
 		return repository.findAll();
 	}
 	
 	@Override
-	public boolean update(Administrador obj) {
+	public boolean update(Funcionario obj) {
 		if(repository.existsById(obj.getId())) {
 			obj.setSenha(passwordEncoder.encode(obj.getSenha()));
 			repository.save(obj);
@@ -57,4 +57,5 @@ public class AdministradorService implements ServiceInterface<Administrador>{
 		}
 		return false;
 	}
+
 }

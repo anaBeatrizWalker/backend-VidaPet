@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.fatec.vidapet.model.Animal;
-import br.fatec.vidapet.model.Servico;
+import br.fatec.vidapet.model.Funcionario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +23,7 @@ public class AgendamentoDTO{
 	private Long id;
 	
 	@NotNull
-	private Servico servico;
+	private Funcionario funcionario;
 	
 	@Size(min = 4, max = 100)
 	private String observacao;

@@ -6,7 +6,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.fatec.vidapet.model.Funcionario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +24,4 @@ public class ServicoDTO {
 	@Min(10)
 	@Max(1000)
 	private Float preco;
-	
-	@NotNull
-	private Funcionario funcionario;
 }

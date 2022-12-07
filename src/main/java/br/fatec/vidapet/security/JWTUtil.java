@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import br.fatec.vidapet.model.TipoPerfil;
+import br.fatec.vidapet.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -47,5 +49,11 @@ public class JWTUtil {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	public boolean authorized(Long id) { 
+		UserDetailsImpl user = UsuarioService.authenticated(); 
+		if (user == null || (!user.hasRole(TipoPerfil.ADMIN) && !id.equals(user.getId()))) { 
+			return false; 
+		} return true; 
 	}
 }

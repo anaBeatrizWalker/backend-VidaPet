@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.fatec.vidapet.exception.AuthorizationException;
 import br.fatec.vidapet.model.Atendente;
 import br.fatec.vidapet.repository.AtendenteRepository;
+import br.fatec.vidapet.security.JWTUtil;
 
 @Service
 public class AtendenteService implements ServiceInterface<Atendente>{
@@ -16,10 +18,13 @@ public class AtendenteService implements ServiceInterface<Atendente>{
 	@Autowired
 	private AtendenteRepository repository;
 	
-	public AtendenteService() {};
-	
 	@Autowired 
 	private BCryptPasswordEncoder passwordEncoder; 
+	
+	@Autowired 
+	private JWTUtil jwtUtil; 
+	
+	public AtendenteService() {};
 
 	@Override 
 	public Atendente create(Atendente obj) { 
@@ -29,7 +34,10 @@ public class AtendenteService implements ServiceInterface<Atendente>{
 	} 
 	
 	@Override
-	public Atendente findById(Long id) {
+	public Atendente findById(Long id) throws AuthorizationException { 
+		if (!jwtUtil.authorized(id)) { 
+			throw new AuthorizationException("Acesso negado! Você não tem permissão para acessar esse conteúdo."); 
+		} 
 		Optional<Atendente> obj = repository.findById(id);
 		if (obj.isPresent()) 
 			return obj.get(); 

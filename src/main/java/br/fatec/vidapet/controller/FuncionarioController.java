@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.vidapet.dto.FuncionarioDTO;
+import br.fatec.vidapet.exception.AuthorizationException;
 import br.fatec.vidapet.mapper.FuncionarioMapper;
 import br.fatec.vidapet.model.Funcionario;
 import br.fatec.vidapet.service.FuncionarioService;
@@ -44,13 +45,16 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<FuncionarioDTO> getOne(@PathVariable("id") Long id){
-		Funcionario obj = service.findById(id);
-		if(obj != null) {
-			return ResponseEntity.ok(mapper.toDTO(obj));
+		try {
+			Funcionario obj = service.findById(id);
+			if(obj != null) {
+				return ResponseEntity.ok(mapper.toDTO(obj));
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		} catch (AuthorizationException e) { 
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); 
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override

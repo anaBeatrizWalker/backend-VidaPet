@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.vidapet.dto.AtendenteDTO;
+import br.fatec.vidapet.exception.AuthorizationException;
 import br.fatec.vidapet.mapper.AtendenteMapper;
 import br.fatec.vidapet.model.Atendente;
 import br.fatec.vidapet.service.AtendenteService;
@@ -44,13 +45,16 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<AtendenteDTO> getOne(@PathVariable("id") Long id){
-		Atendente obj = service.findById(id);
-		if(obj != null) {
-			return ResponseEntity.ok(mapper.toDTO(obj));
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		try {
+			Atendente obj = service.findById(id);
+			if(obj != null) {
+				return ResponseEntity.ok(mapper.toDTO(obj));
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		} catch (AuthorizationException e) { 
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); 
+		} 
 	}
 	
 	@Override

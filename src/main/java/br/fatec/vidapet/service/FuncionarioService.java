@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.fatec.vidapet.exception.AuthorizationException;
 import br.fatec.vidapet.model.Funcionario;
 import br.fatec.vidapet.repository.FuncionarioRepository;
+import br.fatec.vidapet.security.JWTUtil;
 
 @Service
 public class FuncionarioService implements ServiceInterface<Funcionario>{
@@ -18,6 +20,9 @@ public class FuncionarioService implements ServiceInterface<Funcionario>{
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired 
+	private JWTUtil jwtUtil; 
 	
 	public FuncionarioService() {}
 	
@@ -29,7 +34,10 @@ public class FuncionarioService implements ServiceInterface<Funcionario>{
 	}
 	
 	@Override
-	public Funcionario findById(Long id) {
+	public Funcionario findById(Long id) throws AuthorizationException { 
+		if (!jwtUtil.authorized(id)) { 
+			throw new AuthorizationException("Acesso negado! Você não tem permissão para acessar esse conteúdo."); 
+		} 
 		Optional<Funcionario> obj = repository.findById(id);
 		return obj.orElse(null);
 	}

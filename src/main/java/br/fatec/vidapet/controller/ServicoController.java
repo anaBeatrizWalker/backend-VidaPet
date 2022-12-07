@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,14 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<ServicoDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.listarServicosOrdenadosAsc()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<ServicoDTO> getOne(@PathVariable("id") Long id){
 		Servico obj = service.findById(id);
 		if(obj != null) {
@@ -52,6 +55,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<ServicoDTO> post(@Valid @RequestBody ServicoDTO obj) throws URISyntaxException{
 		Servico servico = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(servico.getId()).toUri();
@@ -60,6 +64,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@PutMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<ServicoDTO> put(@Valid @RequestBody ServicoDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -69,6 +74,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

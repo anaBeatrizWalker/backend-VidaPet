@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,14 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	public ResponseEntity<List<AnimalDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	public ResponseEntity<AnimalDTO> getOne(@PathVariable("id") Long id){
 		Animal obj = service.findById(id);
 		if(obj != null) {
@@ -52,6 +55,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	public ResponseEntity<AnimalDTO> post(@Valid @RequestBody AnimalDTO obj) throws URISyntaxException{
 		Animal animal = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(animal.getId()).toUri();
@@ -60,6 +64,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@PutMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	public ResponseEntity<AnimalDTO> put(@Valid @RequestBody AnimalDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -69,6 +74,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.ok().build();

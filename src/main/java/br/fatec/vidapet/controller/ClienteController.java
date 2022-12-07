@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,14 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	public ResponseEntity<List<ClienteDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.listarClientesOrdenadosAsc()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	public ResponseEntity<ClienteDTO> getOne(@PathVariable("id") Long id){
 		Cliente obj = service.findById(id);
 		if(obj != null) {
@@ -52,6 +55,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	public ResponseEntity<ClienteDTO> post(@Valid @RequestBody ClienteDTO obj) throws URISyntaxException{
 		Cliente cliente = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId()).toUri();
@@ -60,6 +64,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@PutMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	public ResponseEntity<ClienteDTO> put(@Valid @RequestBody ClienteDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -69,6 +74,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

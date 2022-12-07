@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,10 +18,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.fatec.vidapet.repository.UsuarioRepository;
 import br.fatec.vidapet.security.JWTAuthenticationFilter;
+import br.fatec.vidapet.security.JWTAuthorizationFilter;
 import br.fatec.vidapet.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -34,26 +37,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_MATCHERS_POST = { 
 			"/login/**", 
-			"/adm/**", 
-			"/servicos/**",
-			"/atendentes/**",
-			"/funcionarios/**",
-			"/clientes/**",
-			"/animais/**",
-			"/agenda/**"
+			"/adm/**",
 	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
-				.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_POST).permitAll()
-				.antMatchers(HttpMethod.PUT, PUBLIC_MATCHERS_POST).permitAll()
 				.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
-				.antMatchers(HttpMethod.DELETE, PUBLIC_MATCHERS_POST).permitAll()
 				.anyRequest().authenticated();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil, usuarioRepository));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 	}
 
 	@Bean

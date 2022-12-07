@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,14 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	
 	@Override
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<FuncionarioDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<FuncionarioDTO> getOne(@PathVariable("id") Long id){
 		Funcionario obj = service.findById(id);
 		if(obj != null) {
@@ -52,6 +55,7 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	
 	@Override
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<FuncionarioDTO> post(@Valid @RequestBody FuncionarioDTO obj) throws URISyntaxException{
 		Funcionario funcionario = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(funcionario.getId()).toUri();
@@ -60,6 +64,7 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	
 	@Override
 	@PutMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<FuncionarioDTO> put(@Valid @RequestBody FuncionarioDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -69,6 +74,7 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

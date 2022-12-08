@@ -25,6 +25,9 @@ import br.fatec.vidapet.exception.AuthorizationException;
 import br.fatec.vidapet.mapper.FuncionarioMapper;
 import br.fatec.vidapet.model.Funcionario;
 import br.fatec.vidapet.service.FuncionarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/funcionarios")
@@ -39,12 +42,19 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	@Override
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Retorno da lista de funcionaŕios."),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
+			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
+	})
+	@Operation(summary = "Retorno da lista de funcionários")
 	public ResponseEntity<List<FuncionarioDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
+	@Operation(summary = "Retorno de um funcionário")
 	public ResponseEntity<FuncionarioDTO> getOne(@PathVariable("id") Long id){
 		try {
 			Funcionario obj = service.findById(id);
@@ -60,6 +70,7 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	@Override
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Cadastro de um funcionário")
 	public ResponseEntity<FuncionarioDTO> post(@Valid @RequestBody FuncionarioDTO obj) throws URISyntaxException{
 		Funcionario funcionario = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(funcionario.getId()).toUri();
@@ -69,6 +80,7 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	@Override
 	@PutMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Edição de um funcionário")
 	public ResponseEntity<FuncionarioDTO> put(@Valid @RequestBody FuncionarioDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -79,6 +91,7 @@ public class FuncionarioController implements ControllerInterface<FuncionarioDTO
 	@Override
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Exclusão de um funcionário")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

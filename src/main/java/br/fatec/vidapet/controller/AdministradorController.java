@@ -24,6 +24,9 @@ import br.fatec.vidapet.dto.AdministradorDTO;
 import br.fatec.vidapet.mapper.AdministradorMapper;
 import br.fatec.vidapet.model.Administrador;
 import br.fatec.vidapet.service.AdministradorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/adm")
@@ -38,6 +41,12 @@ public class AdministradorController implements ControllerInterface<Administrado
 	@Override
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Retorno da lista de administradores."),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
+			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
+	})
+	@Operation(summary = "Retorno da lista de administradores")
 	public ResponseEntity<List<AdministradorDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
@@ -45,6 +54,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	@Override
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Retorno de um administrador")
 	public ResponseEntity<AdministradorDTO> getOne(@PathVariable("id") Long id){
 		Administrador obj = service.findById(id);
 		if(obj != null) {
@@ -54,8 +64,9 @@ public class AdministradorController implements ControllerInterface<Administrado
 	}
 	
 	@Override
-	@PostMapping
+	@PostMapping(produces = "application/json")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Cadastro de um administrador")
 	public ResponseEntity<AdministradorDTO> post(@Valid @RequestBody AdministradorDTO obj) throws URISyntaxException{
 		Administrador adm = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(adm.getId()).toUri();
@@ -65,6 +76,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	@Override
 	@PutMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Edição dos dados de um administrador")
 	public ResponseEntity<AdministradorDTO> put(@Valid @RequestBody AdministradorDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -75,6 +87,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	@Override
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Exclusão de um administrador")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

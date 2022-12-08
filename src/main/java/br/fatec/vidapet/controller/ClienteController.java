@@ -24,6 +24,9 @@ import br.fatec.vidapet.dto.ClienteDTO;
 import br.fatec.vidapet.mapper.ClienteMapper;
 import br.fatec.vidapet.model.Cliente;
 import br.fatec.vidapet.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/clientes")
@@ -38,6 +41,12 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	@Override
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Retorno da lista de clientes."),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
+			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
+	})
+	@Operation(summary = "Retorno da lista de clientes")
 	public ResponseEntity<List<ClienteDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.listarClientesOrdenadosAsc()));
 	}
@@ -45,6 +54,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	@Override
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	@Operation(summary = "Retorno de um cliente")
 	public ResponseEntity<ClienteDTO> getOne(@PathVariable("id") Long id){
 		Cliente obj = service.findById(id);
 		if(obj != null) {
@@ -56,6 +66,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	@Override
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	@Operation(summary = "Cadastro de um cliente")
 	public ResponseEntity<ClienteDTO> post(@Valid @RequestBody ClienteDTO obj) throws URISyntaxException{
 		Cliente cliente = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId()).toUri();
@@ -65,6 +76,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	@Override
 	@PutMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	@Operation(summary = "Edição dos dados de um cliente")
 	public ResponseEntity<ClienteDTO> put(@Valid @RequestBody ClienteDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -75,6 +87,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	@Override
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	@Operation(summary = "Exclusão de um cliente")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

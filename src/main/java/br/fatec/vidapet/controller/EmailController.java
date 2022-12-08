@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.fatec.vidapet.dto.EmailDTO;
 import br.fatec.vidapet.service.EmailService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/email")
@@ -24,6 +25,7 @@ public class EmailController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Envio de E-mail HTML")
 	public ResponseEntity<?> sendHtmlEmail(@RequestBody EmailDTO email) {
 		try {
 			service.sendHtmlEmail(email);

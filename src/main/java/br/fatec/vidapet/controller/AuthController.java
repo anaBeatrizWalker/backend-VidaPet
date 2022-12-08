@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.fatec.vidapet.security.JWTUtil;
 import br.fatec.vidapet.security.UserDetailsImpl;
 import br.fatec.vidapet.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController 
 @RequestMapping("/auth") 
@@ -20,7 +21,8 @@ public class AuthController {
 	@Autowired 
 	private JWTUtil jwtUtil; 
 	
-	@PostMapping(value = "/refresh_token") 
+	@PostMapping(value = "/refresh_token")
+	@Operation(summary = "Geração de novo token")
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response) { 
 		UserDetailsImpl user = UsuarioService.authenticated();
 		if (user != null) { 

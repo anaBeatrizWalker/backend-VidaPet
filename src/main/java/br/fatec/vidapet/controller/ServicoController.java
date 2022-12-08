@@ -24,6 +24,9 @@ import br.fatec.vidapet.dto.ServicoDTO;
 import br.fatec.vidapet.mapper.ServicoMapper;
 import br.fatec.vidapet.model.Servico;
 import br.fatec.vidapet.service.ServicoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/servicos")
@@ -38,6 +41,12 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	@Override
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Retorno da lista de serviços."),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
+			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
+	})
+	@Operation(summary = "Retorno da lista de serviços")
 	public ResponseEntity<List<ServicoDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.listarServicosOrdenadosAsc()));
 	}
@@ -45,6 +54,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	@Override
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Retorno de um serviço")
 	public ResponseEntity<ServicoDTO> getOne(@PathVariable("id") Long id){
 		Servico obj = service.findById(id);
 		if(obj != null) {
@@ -56,6 +66,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	@Override
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Cadastro de serviços")
 	public ResponseEntity<ServicoDTO> post(@Valid @RequestBody ServicoDTO obj) throws URISyntaxException{
 		Servico servico = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(servico.getId()).toUri();
@@ -65,6 +76,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	@Override
 	@PutMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Edição dos dados de um serviço")
 	public ResponseEntity<ServicoDTO> put(@Valid @RequestBody ServicoDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -75,6 +87,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	@Override
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Exclusão de um serviço")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

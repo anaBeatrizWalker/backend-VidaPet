@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.fatec.vidapet.service.S3Service;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/upload")
@@ -22,6 +23,7 @@ public class UploadController {
 	
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	@Operation(summary = "Upload de imagem na nuvem")
 	public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file){
 		URI uri = s3Service.upload(file);
 		return ResponseEntity.created(uri).build();

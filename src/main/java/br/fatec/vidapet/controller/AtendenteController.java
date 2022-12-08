@@ -25,6 +25,9 @@ import br.fatec.vidapet.exception.AuthorizationException;
 import br.fatec.vidapet.mapper.AtendenteMapper;
 import br.fatec.vidapet.model.Atendente;
 import br.fatec.vidapet.service.AtendenteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/atendentes")
@@ -39,12 +42,19 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	@Override
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Retorno da lista de atendentes."),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
+			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
+	})
+	@Operation(summary = "Retorno da lista de atendentes")
 	public ResponseEntity<List<AtendenteDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
 	@GetMapping(value = "/{id}")
+	@Operation(summary = "Retorno de um atendente")
 	public ResponseEntity<AtendenteDTO> getOne(@PathVariable("id") Long id){
 		try {
 			Atendente obj = service.findById(id);
@@ -60,6 +70,7 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	@Override
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Cadastro de um atendente")
 	public ResponseEntity<AtendenteDTO> post(@Valid @RequestBody AtendenteDTO obj) throws URISyntaxException{
 		Atendente atendente = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(atendente.getId()).toUri();
@@ -69,6 +80,7 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	@Override
 	@PutMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Edição dos dados de um atendente")
 	public ResponseEntity<AtendenteDTO> put(@Valid @RequestBody AtendenteDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -79,6 +91,7 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	@Override
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@Operation(summary = "Exclusão de um atendente")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.noContent().build();

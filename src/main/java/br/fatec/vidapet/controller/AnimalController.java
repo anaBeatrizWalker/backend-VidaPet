@@ -24,6 +24,9 @@ import br.fatec.vidapet.dto.AnimalDTO;
 import br.fatec.vidapet.mapper.AnimalMapper;
 import br.fatec.vidapet.model.Animal;
 import br.fatec.vidapet.service.AnimalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/animais")
@@ -38,6 +41,12 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	@Override
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Retorno da lista de animais."),
+			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
+			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
+	})
+	@Operation(summary = "Retorno da lista de animais")
 	public ResponseEntity<List<AnimalDTO>> getAll(){
 		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
@@ -45,6 +54,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	@Override
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	@Operation(summary = "Retorno de um animal")
 	public ResponseEntity<AnimalDTO> getOne(@PathVariable("id") Long id){
 		Animal obj = service.findById(id);
 		if(obj != null) {
@@ -56,6 +66,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	@Override
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	@Operation(summary = "Cadastro de um animal")
 	public ResponseEntity<AnimalDTO> post(@Valid @RequestBody AnimalDTO obj) throws URISyntaxException{
 		Animal animal = service.create(mapper.toEntity(obj));
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(animal.getId()).toUri();
@@ -65,6 +76,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	@Override
 	@PutMapping
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	@Operation(summary = "Edição dos dados de um animal")
 	public ResponseEntity<AnimalDTO> put(@Valid @RequestBody AnimalDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
@@ -75,6 +87,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	@Override
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	@Operation(summary = "Exclusão de um animal")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
 			return ResponseEntity.ok().build();

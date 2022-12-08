@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title th:remove="all">E-mail</title>
+</head>
+<body>
+	<div>
+		<img th:src="@{imagens/logo_VidaPet.png}"/>
+		<h1>
+			Olá, bem-vindo ao VidaPet!
+		</h1>
+		<p>Siga as instruções abaixo: </p>
+		<div>
+			<p th:text="${email.text}"></p>
+		</div>
+	</div>
+</body>
+</html>

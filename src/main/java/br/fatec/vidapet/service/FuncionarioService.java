@@ -35,9 +35,11 @@ public class FuncionarioService implements ServiceInterface<Funcionario>{
 	
 	@Override
 	public Funcionario findById(Long id) throws AuthorizationException { 
+		/*
 		if (!jwtUtil.authorized(id)) { 
 			throw new AuthorizationException("Acesso negado! Você não tem permissão para acessar esse conteúdo."); 
 		} 
+		*/
 		Optional<Funcionario> obj = repository.findById(id);
 		return obj.orElse(null);
 	}

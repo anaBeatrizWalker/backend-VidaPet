@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,10 +26,11 @@ public class AgendamentoDTO{
 	@NotNull
 	private Funcionario funcionario;
 	
-	@Size(min = 4, max = 100)
+	@Size(min = 3, max = 100)
 	private String observacao;
 	
 	@NotNull
+	@Future
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	private Calendar data;

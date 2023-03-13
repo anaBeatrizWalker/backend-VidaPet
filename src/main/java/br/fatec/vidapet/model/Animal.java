@@ -1,12 +1,17 @@
 package br.fatec.vidapet.model;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,7 +37,7 @@ public class Animal extends AbstractEntity {
 	
 	@Getter
 	@Setter
-	@Column(length=50)
+	@Column(length=50, nullable=false)
 	private String raça;
 	
 	@Getter
@@ -43,7 +48,10 @@ public class Animal extends AbstractEntity {
 	
 	@Getter
 	@Setter
-	private Integer idade;
+	@Column(nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	private Calendar dataDeNascimento;
 	
 	@Getter
 	@Setter

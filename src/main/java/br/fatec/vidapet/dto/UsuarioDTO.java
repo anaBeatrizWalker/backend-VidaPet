@@ -22,7 +22,7 @@ public class UsuarioDTO {
 	private Long id;
 	
 	@NotBlank 
-	@Size(min = 4, max = 70)
+	@Size(min = 3, max = 70)
 	private String nome;
 	
 	@NotBlank
@@ -31,7 +31,7 @@ public class UsuarioDTO {
 	private String email;
 	
 	@NotBlank
-	@CPF
+	//@CPF
 	@Size(min = 11)
 	private String cpf;
 	

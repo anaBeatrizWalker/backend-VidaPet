@@ -40,7 +40,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	
 	@Override
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Retorno da lista de administradores."),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
@@ -53,7 +53,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Retorno de um administrador")
 	public ResponseEntity<AdministradorDTO> getOne(@PathVariable("id") Long id){
 		Administrador obj = service.findById(id);
@@ -65,7 +65,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	
 	@Override
 	@PostMapping(produces = "application/json")
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Cadastro de um administrador")
 	public ResponseEntity<AdministradorDTO> post(@Valid @RequestBody AdministradorDTO obj) throws URISyntaxException{
 		Administrador adm = service.create(mapper.toEntity(obj));
@@ -75,7 +75,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	
 	@Override
 	@PutMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Edição dos dados de um administrador")
 	public ResponseEntity<AdministradorDTO> put(@Valid @RequestBody AdministradorDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
@@ -86,7 +86,7 @@ public class AdministradorController implements ControllerInterface<Administrado
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Exclusão de um administrador")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {

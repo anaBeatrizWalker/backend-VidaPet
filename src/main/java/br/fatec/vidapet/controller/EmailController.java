@@ -24,7 +24,7 @@ public class EmailController {
 	private EmailService service;
 
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Envio de E-mail HTML")
 	public ResponseEntity<?> sendHtmlEmail(@RequestBody EmailDTO email) {
 		try {

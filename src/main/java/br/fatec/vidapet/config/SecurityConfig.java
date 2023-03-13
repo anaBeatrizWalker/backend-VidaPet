@@ -35,16 +35,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	private static final String[] PUBLIC_MATCHERS_POST = { 
+	private static final String[] PUBLIC_MATCHERS = { 
 			"/login/**", 
 			"/adm/**",
+			"/agenda/**", 
+			"/animais/**",
+			"/atendentes/**", 
+			"/clientes/**",
+			"/funcionarios/**", 
+			"/servicos/**",
+			"/email/**", 
+			"/upload/**",
 	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
-				.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+				.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS).permitAll()
+				.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
+				.antMatchers(HttpMethod.PUT, PUBLIC_MATCHERS).permitAll()
+				.antMatchers(HttpMethod.DELETE, PUBLIC_MATCHERS).permitAll()
 				.antMatchers("/documentation/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 				.anyRequest().authenticated();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

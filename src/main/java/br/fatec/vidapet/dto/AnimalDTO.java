@@ -1,11 +1,17 @@
 package br.fatec.vidapet.dto;
 
+import java.util.Calendar;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,11 +30,11 @@ public class AnimalDTO {
 	private Long id;
 	
 	@NotBlank
-	@Size(min = 4, max = 50)
+	@Size(min = 3, max = 50)
 	private String nome;
 	
 	@NotBlank 
-	@Size(min = 4, max = 50)
+	@Size(min = 3, max = 50)
 	private String especie;
 	
 	@Size(min = 3, max = 50)
@@ -37,9 +43,11 @@ public class AnimalDTO {
 	@NotNull
 	private SexoAnimal sexo;
 	
-	@Min(1)
-	@Max(20)
-	private Integer idade;
+	@NotNull
+	@Past
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	private Calendar dataDeNascimento;
 	
 	@NotNull
 	private PorteAnimal porte;
@@ -48,7 +56,7 @@ public class AnimalDTO {
 	private PelagemAnimal pelagem;
 	
 	@Min(1)
-	@Max(50)
+	@Max(100)
 	private Float peso;
 	
 	//foto;

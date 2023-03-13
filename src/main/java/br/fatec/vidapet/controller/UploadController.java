@@ -22,7 +22,7 @@ public class UploadController {
 	private S3Service s3Service;
 	
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Upload de imagem na nuvem")
 	public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file){
 		URI uri = s3Service.upload(file);

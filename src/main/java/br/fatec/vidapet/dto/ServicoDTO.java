@@ -17,11 +17,11 @@ public class ServicoDTO {
 	private Long id;
 	
 	@NotBlank
-	@Size(min = 4, max = 50)
+	@Size(min = 3, max = 50)
 	private String nome;
 	
 	@NotNull
-	@Min(10)
+	@Min(1)
 	@Max(1000)
 	private Float preco;
 }

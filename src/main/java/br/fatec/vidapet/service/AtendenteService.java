@@ -35,9 +35,11 @@ public class AtendenteService implements ServiceInterface<Atendente>{
 	
 	@Override
 	public Atendente findById(Long id) throws AuthorizationException { 
+		/*
 		if (!jwtUtil.authorized(id)) { 
 			throw new AuthorizationException("Acesso negado! Você não tem permissão para acessar esse conteúdo."); 
 		} 
+		*/
 		Optional<Atendente> obj = repository.findById(id);
 		if (obj.isPresent()) 
 			return obj.get(); 

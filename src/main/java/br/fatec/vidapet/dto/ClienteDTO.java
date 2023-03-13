@@ -19,12 +19,12 @@ public class ClienteDTO {
 	private Long id;
 	
 	@NotBlank 
-	@Size(min = 4, max = 70)
+	@Size(min = 3, max = 70)
 	private String nome;
 	
 	@NotBlank
 	@Email
-	@Size(min = 10, max = 70)
+	@Size(min = 5, max = 70)
 	private String email;
 	
 	@NotBlank

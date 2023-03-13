@@ -40,7 +40,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Retorno da lista de clientes."),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
@@ -53,7 +53,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Retorno de um cliente")
 	public ResponseEntity<ClienteDTO> getOne(@PathVariable("id") Long id){
 		Cliente obj = service.findById(id);
@@ -65,7 +65,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Cadastro de um cliente")
 	public ResponseEntity<ClienteDTO> post(@Valid @RequestBody ClienteDTO obj) throws URISyntaxException{
 		Cliente cliente = service.create(mapper.toEntity(obj));
@@ -75,7 +75,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@PutMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Edição dos dados de um cliente")
 	public ResponseEntity<ClienteDTO> put(@Valid @RequestBody ClienteDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
@@ -86,7 +86,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Exclusão de um cliente")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {

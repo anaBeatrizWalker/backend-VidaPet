@@ -40,7 +40,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	
 	@Override
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Retorno da lista de agendamentos."),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
@@ -52,7 +52,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Retorno de um agendamento")
 	public ResponseEntity<AgendamentoDTO> getOne(@PathVariable("id") Long id){
 		Agendamento obj = service.findById(id);
@@ -64,7 +64,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	
 	@Override
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Cadastro de um agendamento")
 	public ResponseEntity<AgendamentoDTO> post(@Valid @RequestBody AgendamentoDTO obj) throws URISyntaxException{
 		Agendamento agendamento = service.create(mapper.toEntity(obj));
@@ -74,7 +74,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	
 	@Override
 	@PutMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Edição dos dados de um agendamento")
 	public ResponseEntity<AgendamentoDTO> put(@Valid @RequestBody AgendamentoDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
@@ -85,7 +85,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Exclusão de um agendamento")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {
@@ -95,7 +95,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	}
 	
 	@GetMapping(value = "/funcionario/{email}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Retorno de uma lista de agendamentos por funcionario")
 	public ResponseEntity<List<AgendamentoDTO>> listarPorFuncionario(@PathVariable("email") String email){
 		List<Agendamento> obj = service.listarPorFuncionario(email); 
@@ -105,7 +105,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	}
 	
 	@GetMapping(value = "/dia_atual")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Retorno de uma lista de agendamentos do dia atual")
 	public ResponseEntity<List<AgendamentoDTO>> listarPeloDiaAtual(){
 		List<Agendamento> obj = service.listarPeloDiaAtual();
@@ -115,7 +115,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	}
 	
 	@GetMapping(value = "/semana_atual")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Retorno de uma lista de agendamentos da semana atual")
 	public ResponseEntity<List<AgendamentoDTO>> listarPelaSemanaAtual(){
 		List<Agendamento> obj = service.listarPelaSemanaAtual(); 
@@ -125,7 +125,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	}
 	
 	@GetMapping(value = "/mes_atual")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Retorno de uma lista de agendamentos do mês atual")
 	public ResponseEntity<List<AgendamentoDTO>> listarPeloMesAtual(){
 		List<Agendamento> obj = service.listarPeloMesAtual(); 

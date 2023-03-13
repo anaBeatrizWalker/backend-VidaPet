@@ -40,7 +40,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Retorno da lista de serviços."),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
@@ -53,7 +53,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Retorno de um serviço")
 	public ResponseEntity<ServicoDTO> getOne(@PathVariable("id") Long id){
 		Servico obj = service.findById(id);
@@ -65,7 +65,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Cadastro de serviços")
 	public ResponseEntity<ServicoDTO> post(@Valid @RequestBody ServicoDTO obj) throws URISyntaxException{
 		Servico servico = service.create(mapper.toEntity(obj));
@@ -75,7 +75,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@PutMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Edição dos dados de um serviço")
 	public ResponseEntity<ServicoDTO> put(@Valid @RequestBody ServicoDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
@@ -86,7 +86,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Exclusão de um serviço")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {

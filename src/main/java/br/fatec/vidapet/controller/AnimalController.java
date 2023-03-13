@@ -40,7 +40,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Retorno da lista de animais."),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
@@ -53,7 +53,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Retorno de um animal")
 	public ResponseEntity<AnimalDTO> getOne(@PathVariable("id") Long id){
 		Animal obj = service.findById(id);
@@ -65,7 +65,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Cadastro de um animal")
 	public ResponseEntity<AnimalDTO> post(@Valid @RequestBody AnimalDTO obj) throws URISyntaxException{
 		Animal animal = service.create(mapper.toEntity(obj));
@@ -75,7 +75,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@PutMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Edição dos dados de um animal")
 	public ResponseEntity<AnimalDTO> put(@Valid @RequestBody AnimalDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
@@ -85,7 +85,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	}
 	
 	@Override
-	@DeleteMapping(value = "/{id}")
+	//@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Exclusão de um animal")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){

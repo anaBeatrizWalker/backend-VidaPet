@@ -41,7 +41,7 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	
 	@Override
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Retorno da lista de atendentes."),
 			@ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar esse conteúdo."),
@@ -56,6 +56,12 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	@GetMapping(value = "/{id}")
 	@Operation(summary = "Retorno de um atendente")
 	public ResponseEntity<AtendenteDTO> getOne(@PathVariable("id") Long id){
+		Atendente obj = service.findById(id);
+		if(obj != null) {
+			return ResponseEntity.ok(mapper.toDTO(obj));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		/* 
 		try {
 			Atendente obj = service.findById(id);
 			if(obj != null) {
@@ -65,11 +71,12 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 		} catch (AuthorizationException e) { 
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); 
 		} 
+		*/
 	}
 	
 	@Override
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Cadastro de um atendente")
 	public ResponseEntity<AtendenteDTO> post(@Valid @RequestBody AtendenteDTO obj) throws URISyntaxException{
 		Atendente atendente = service.create(mapper.toEntity(obj));
@@ -79,7 +86,7 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	
 	@Override
 	@PutMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Edição dos dados de um atendente")
 	public ResponseEntity<AtendenteDTO> put(@Valid @RequestBody AtendenteDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
@@ -90,7 +97,7 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@Operation(summary = "Exclusão de um atendente")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {

@@ -31,7 +31,7 @@ public class ClienteService implements ServiceInterface<Cliente>{
 	
 	@Override
 	public List<Cliente> findAll() {
-		return repository.findAll();
+		return repository.listarClientesOrdenadosPorNomeAsc();
 	}
 	
 	@Override
@@ -50,9 +50,5 @@ public class ClienteService implements ServiceInterface<Cliente>{
 			return true;
 		}
 		return false;
-	}
-	
-	public List<Cliente> listarClientesOrdenadosAsc() {
-		return repository.listarClientesOrdenadosAsc();
 	}
 }

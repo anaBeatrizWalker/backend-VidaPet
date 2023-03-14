@@ -47,7 +47,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
 	})@Operation(summary = "Retorno da lista de agendamentos")
 	public ResponseEntity<List<AgendamentoDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.listarAgendaOrdenadaAsc()));
+		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override
@@ -94,11 +94,11 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
-	@GetMapping(value = "/funcionario/{email}")
+	@GetMapping(value = "/funcionario/{login}")
 	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Retorno de uma lista de agendamentos por funcionario")
-	public ResponseEntity<List<AgendamentoDTO>> listarPorFuncionario(@PathVariable("email") String email){
-		List<Agendamento> obj = service.listarPorFuncionario(email); 
+	public ResponseEntity<List<AgendamentoDTO>> listarPorFuncionario(@PathVariable("login") String login){
+		List<Agendamento> obj = service.listarPorFuncionario(login); 
 		if (obj != null) 
 			return ResponseEntity.ok(mapper.toDTO(obj));
 		return ResponseEntity.notFound().build(); 

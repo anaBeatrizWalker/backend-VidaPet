@@ -48,7 +48,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 	})
 	@Operation(summary = "Retorno da lista de serviços")
 	public ResponseEntity<List<ServicoDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.listarServicosOrdenadosAsc()));
+		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override

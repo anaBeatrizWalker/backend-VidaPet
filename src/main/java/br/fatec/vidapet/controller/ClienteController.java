@@ -48,7 +48,7 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	})
 	@Operation(summary = "Retorno da lista de clientes")
 	public ResponseEntity<List<ClienteDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.listarClientesOrdenadosAsc()));
+		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
 	}
 	
 	@Override

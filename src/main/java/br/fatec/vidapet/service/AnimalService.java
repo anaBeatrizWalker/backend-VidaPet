@@ -31,7 +31,7 @@ public class AnimalService implements ServiceInterface<Animal>{
 	
 	@Override
 	public List<Animal> findAll() {
-		return repository.findAll();
+		return repository.listarAnimaisOrdenadosPorNomeAsc();
 	}
 	
 	@Override

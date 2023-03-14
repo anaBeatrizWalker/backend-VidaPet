@@ -31,7 +31,7 @@ public class AgendamentoService implements ServiceInterface<Agendamento>{
 	
 	@Override
 	public List<Agendamento> findAll() {
-		return repository.findAll();
+		return repository.listarAgendaOrdenadaPorDataHoraAsc();
 	}
 	
 	@Override
@@ -52,8 +52,8 @@ public class AgendamentoService implements ServiceInterface<Agendamento>{
 		return false;
 	}
 	
-	public List<Agendamento> listarPorFuncionario(String email){
-		return repository.listarPorFuncionario(email);
+	public List<Agendamento> listarPorFuncionario(String login){
+		return repository.listarPorFuncionario(login);
 	}
 	
 	public List<Agendamento> listarPeloDiaAtual(){
@@ -66,9 +66,5 @@ public class AgendamentoService implements ServiceInterface<Agendamento>{
 	
 	public List<Agendamento> listarPeloMesAtual(){
 		return repository.listarPeloMesAtual();
-	}
-	
-	public List<Agendamento> listarAgendaOrdenadaAsc() {
-		return repository.listarAgendaOrdenadaAsc();
 	}
 }

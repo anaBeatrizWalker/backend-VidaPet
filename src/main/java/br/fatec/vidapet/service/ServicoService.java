@@ -31,7 +31,7 @@ public class ServicoService implements ServiceInterface<Servico>{
 	
 	@Override
 	public List<Servico> findAll() {
-		return repository.findAll();
+		return repository.listarServicosOrdenadosPorNomeAsc();
 	}
 	
 	@Override
@@ -50,9 +50,5 @@ public class ServicoService implements ServiceInterface<Servico>{
 			return true;
 		}
 		return false;
-	}
-	
-	public List<Servico> listarServicosOrdenadosAsc() {
-		return repository.listarServicosOrdenadosAsc();
 	}
 }

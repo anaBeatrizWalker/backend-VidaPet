@@ -10,6 +10,6 @@ import br.fatec.vidapet.model.Animal;
 
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long>  {
-    @Query(value="select * from animal order by nome asc;", nativeQuery=true)
-    List<Animal> listarAnimaisOrdenadosPorNomeAsc();
+	@Query(value="select * from animal order by nome asc;", nativeQuery=true)
+	List<Animal> listarAnimaisOrdenadosPorNomeAsc();
 }

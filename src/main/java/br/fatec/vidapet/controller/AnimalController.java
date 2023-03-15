@@ -85,8 +85,8 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	}
 	
 	@Override
-	//@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	@DeleteMapping(value = "/{id}")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
 	@Operation(summary = "Exclusão de um animal")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {

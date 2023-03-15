@@ -48,7 +48,11 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	})
 	@Operation(summary = "Retorno da lista de animais")
 	public ResponseEntity<List<AnimalDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
+		List<Animal> objts = service.findAll();
+		if(objts != null) {
+			return ResponseEntity.ok(mapper.toDTO(objts));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override

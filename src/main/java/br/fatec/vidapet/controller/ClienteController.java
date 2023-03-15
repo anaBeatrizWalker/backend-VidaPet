@@ -48,7 +48,11 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	})
 	@Operation(summary = "Retorno da lista de clientes")
 	public ResponseEntity<List<ClienteDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
+		List<Cliente> objts = service.findAll();
+		if(objts != null) {
+			return ResponseEntity.ok(mapper.toDTO(objts));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override

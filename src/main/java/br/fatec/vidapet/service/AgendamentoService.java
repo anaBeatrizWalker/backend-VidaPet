@@ -31,7 +31,7 @@ public class AgendamentoService implements ServiceInterface<Agendamento>{
 	
 	@Override
 	public List<Agendamento> findAll() {
-		return repository.findAll();
+		return repository.listarAgendaOrdenadaPorDataHoraAsc();
 	}
 	
 	@Override

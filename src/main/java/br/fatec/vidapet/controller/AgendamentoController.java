@@ -47,7 +47,11 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 			@ApiResponse(responseCode = "500", description = "Erro interno do sistema.")
 	})@Operation(summary = "Retorno da lista de agendamentos")
 	public ResponseEntity<List<AgendamentoDTO>> getAll(){
-		return ResponseEntity.ok(mapper.toDTO(service.findAll()));
+		List<Agendamento> objts = service.findAll();
+		if(objts != null) {
+			return ResponseEntity.ok(mapper.toDTO(objts));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@Override

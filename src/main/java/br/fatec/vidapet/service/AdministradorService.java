@@ -36,7 +36,7 @@ public class AdministradorService implements ServiceInterface<Administrador>{
 	
 	@Override
 	public List<Administrador> findAll(){
-		return repository.findAll();
+		return repository.listarAdministradoresPorNomeAsc();
 	}
 	
 	@Override

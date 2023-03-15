@@ -46,7 +46,7 @@ public class FuncionarioService implements ServiceInterface<Funcionario>{
 	
 	@Override
 	public List<Funcionario> findAll(){
-		return repository.findAll();
+		return repository.listarFuncionariosPorNomeAsc();
 	}
 	
 	@Override

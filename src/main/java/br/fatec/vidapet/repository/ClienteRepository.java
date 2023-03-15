@@ -10,6 +10,6 @@ import br.fatec.vidapet.model.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long>  {
-	@Query(value="select * from cliente order by nome asc;", nativeQuery=true)
+	@Query(value="select c from Cliente c order by c.nome asc")
 	List<Cliente> listarClientesOrdenadosPorNomeAsc();
 }

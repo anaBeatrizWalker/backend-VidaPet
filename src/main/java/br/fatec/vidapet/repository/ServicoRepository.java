@@ -10,6 +10,6 @@ import br.fatec.vidapet.model.Servico;
 
 @Repository
 public interface ServicoRepository extends JpaRepository<Servico, Long> {
-	@Query(value="select * from servico order by nome asc;", nativeQuery=true)
+	@Query(value="select s from Servico s order by s.nome asc")
 	List<Servico> listarServicosOrdenadosPorNomeAsc();
 }

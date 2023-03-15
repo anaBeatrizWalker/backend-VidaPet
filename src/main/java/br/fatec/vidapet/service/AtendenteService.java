@@ -48,7 +48,7 @@ public class AtendenteService implements ServiceInterface<Atendente>{
 	
 	@Override
 	public List<Atendente> findAll(){
-		return repository.findAll();
+		return repository.listarAtendentesPorNomeAsc();
 	}
 	
 	@Override

@@ -48,6 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/upload/**",
 	};
 
+	/*
+	private static final String[] PUBLIC_MATCHERS_POST = { 
+		"/login/**", 
+		"/adm/**",
+		"/clientes/**"
+	};
+	*/
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();

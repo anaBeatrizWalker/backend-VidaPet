@@ -2,7 +2,6 @@ package br.fatec.vidapet.dto;
 
 import java.util.List; 
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ClienteDTO {
+public class ClienteDTO extends UsuarioDTO {
 	private Long id;
 	
 	@NotBlank

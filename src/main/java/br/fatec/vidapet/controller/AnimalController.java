@@ -69,7 +69,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@PostMapping
-	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'CLIENTE')")
 	@Operation(summary = "Cadastro de um animal")
 	public ResponseEntity<AnimalDTO> post(@Valid @RequestBody AnimalDTO obj) throws URISyntaxException{
 		Animal animal = service.create(mapper.toEntity(obj));
@@ -79,7 +79,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@PutMapping
-	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO', 'CLIENTE')")
 	@Operation(summary = "Edição dos dados de um animal")
 	public ResponseEntity<AnimalDTO> put(@Valid @RequestBody AnimalDTO obj){
 		if(service.update(mapper.toEntity(obj))) {
@@ -90,7 +90,7 @@ public class AnimalController implements ControllerInterface<AnimalDTO>{
 	
 	@Override
 	@DeleteMapping(value = "/{id}")
-	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE')")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'CLIENTE')")
 	@Operation(summary = "Exclusão de um animal")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		if(service.delete(id)) {

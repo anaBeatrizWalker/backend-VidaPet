@@ -83,7 +83,6 @@ public class ClienteController implements ControllerInterface<ClienteDTO>{
 	
 	@Override
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'CLIENTE')")
 	@Operation(summary = "Cadastro de um cliente")
 	public ResponseEntity<ClienteDTO> post(@Valid @RequestBody ClienteDTO obj) throws URISyntaxException{
 		Cliente cliente = service.create(mapper.toEntity(obj));

@@ -4,27 +4,41 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.fatec.vidapet.model.Cliente;
 import br.fatec.vidapet.repository.ClienteRepository;
+import br.fatec.vidapet.security.JWTUtil;
 
 @Service
 public class ClienteService implements ServiceInterface<Cliente>{
 	
 	@Autowired
 	private ClienteRepository repository;
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired 
+	private JWTUtil jwtUtil; 
 	
 	public ClienteService() {};
 	
 	@Override
 	public Cliente create(Cliente obj) {
-		repository.save(obj);
-		return obj;
+		obj.setSenha(passwordEncoder.encode(obj.getSenha()));
+		Cliente cliente = repository.save(obj); 
+		return cliente;
 	}
 	
 	@Override
 	public Cliente findById(Long id) {
+		/*
+		if (!jwtUtil.authorized(id)) { 
+			throw new AuthorizationException("Acesso negado! Você não tem permissão para acessar esse conteúdo."); 
+		} 
+		*/
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElse(null);
 	}
@@ -37,6 +51,7 @@ public class ClienteService implements ServiceInterface<Cliente>{
 	@Override
 	public boolean update(Cliente obj) {
 		if(repository.existsById(obj.getId())) {
+			obj.setSenha(passwordEncoder.encode(obj.getSenha()));
 			repository.save(obj);
 			return true;
 		}

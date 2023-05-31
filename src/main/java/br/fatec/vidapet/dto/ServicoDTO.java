@@ -24,4 +24,6 @@ public class ServicoDTO {
 	@Min(1)
 	@Max(1000)
 	private Float preco;
+
+	private String tipo;
 }

@@ -19,4 +19,6 @@ public class Servico extends AbstractEntity {
 	
 	@Column(nullable=false)
 	private Float preco;
+
+	private String tipo;
 }

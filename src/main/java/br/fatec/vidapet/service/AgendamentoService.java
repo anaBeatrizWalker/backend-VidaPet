@@ -55,6 +55,10 @@ public class AgendamentoService implements ServiceInterface<Agendamento>{
 	public List<Agendamento> listarPorFuncionario(String login){
 		return repository.listarPorFuncionario(login);
 	}
+
+	public List<Agendamento> listarPorClienteId(Long id){
+		return repository.listarPorClienteId(id);
+	}
 	
 	public List<Agendamento> listarPeloDiaAtual(){
 		return repository.listarPeloDiaAtual();

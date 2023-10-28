@@ -12,6 +12,9 @@ import br.fatec.vidapet.model.Agendamento;
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
 	@Query("select a from Agendamento a join a.funcionario f where f.login=?1 order by a.data, a.horario asc")
 	List<Agendamento> listarPorFuncionario(String login);
+
+	@Query("SELECT a FROM Agendamento a WHERE a.animal.cliente.id=?1 ORDER BY a.data, a.horario ASC")
+	List<Agendamento> listarPorClienteId(Long id);
 	
 	@Query(value="select * from agendamento where data = CURRENT_DATE() order by data, horario asc;", nativeQuery=true)
 	List<Agendamento> listarPeloDiaAtual();

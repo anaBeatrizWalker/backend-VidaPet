@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,6 +103,16 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	@Operation(summary = "Retorno de uma lista de agendamentos por funcionario")
 	public ResponseEntity<List<AgendamentoDTO>> listarPorFuncionario(@PathVariable("login") String login){
 		List<Agendamento> obj = service.listarPorFuncionario(login); 
+		if (obj != null) 
+			return ResponseEntity.ok(mapper.toDTO(obj));
+		return ResponseEntity.notFound().build(); 
+	}
+
+	@GetMapping(value = "/cliente/agenda/{id}")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	@Operation(summary = "Retorno de uma lista de agendamentos por cliente")
+	public ResponseEntity<List<AgendamentoDTO>> listarPorClienteId(@PathVariable("id") Long id){
+		List<Agendamento> obj = service.listarPorClienteId(id); 
 		if (obj != null) 
 			return ResponseEntity.ok(mapper.toDTO(obj));
 		return ResponseEntity.notFound().build(); 

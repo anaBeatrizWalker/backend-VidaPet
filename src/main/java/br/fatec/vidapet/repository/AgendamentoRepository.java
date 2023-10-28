@@ -10,8 +10,8 @@ import br.fatec.vidapet.model.Agendamento;
 
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
-	@Query("select a from Agendamento a join a.funcionario f where f.login=?1 order by a.data, a.horario asc")
-	List<Agendamento> listarPorFuncionario(String login);
+	@Query("select a from Agendamento a where a.funcionario.id=?1 order by a.data, a.horario asc")
+	List<Agendamento> listarPorFuncionario(Long id);
 
 	@Query("SELECT a FROM Agendamento a WHERE a.animal.cliente.id=?1 ORDER BY a.data, a.horario ASC")
 	List<Agendamento> listarPorClienteId(Long id);

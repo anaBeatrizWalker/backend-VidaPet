@@ -98,11 +98,11 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
-	@GetMapping(value = "/funcionario/{login}")
+	@GetMapping(value = "/funcionario/agenda/{id}")
 	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Retorno de uma lista de agendamentos por funcionario")
-	public ResponseEntity<List<AgendamentoDTO>> listarPorFuncionario(@PathVariable("login") String login){
-		List<Agendamento> obj = service.listarPorFuncionario(login); 
+	public ResponseEntity<List<AgendamentoDTO>> listarPorFuncionario(@PathVariable("id") Long id){
+		List<Agendamento> obj = service.listarPorFuncionario(id); 
 		if (obj != null) 
 			return ResponseEntity.ok(mapper.toDTO(obj));
 		return ResponseEntity.notFound().build(); 

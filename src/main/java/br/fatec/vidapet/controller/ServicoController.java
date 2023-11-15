@@ -89,11 +89,11 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
             		existingServico.setNome(partialUpdate.getNome());
         	}
 
-		if (partialUpdate.getPreco() != null) {
+			if (partialUpdate.getPreco() != null) {
             		existingServico.setPreco(partialUpdate.getPreco());
         	}
 
-		if (partialUpdate.getTipo() != null) {
+			if (partialUpdate.getTipo() != null) {
             		existingServico.setTipo(partialUpdate.getTipo());
         	}
 
@@ -106,15 +106,16 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
     	}
 
 	
-	@Override
-	@PutMapping
-	//@PreAuthorize("hasAnyRole('ADMIN')")
-	@Operation(summary = "Edição dos dados de um serviço")
-	public ResponseEntity<ServicoDTO> put(@Valid @RequestBody ServicoDTO obj){
-		if(service.update(mapper.toEntity(obj))) {
-			return ResponseEntity.ok(obj);
+		@Override
+		@PutMapping
+		//@PreAuthorize("hasAnyRole('ADMIN')")
+		@Operation(summary = "Edição dos dados de um serviço")
+		public ResponseEntity<ServicoDTO> put(@Valid @RequestBody ServicoDTO obj){
+			if(service.update(mapper.toEntity(obj))) {
+				return ResponseEntity.ok(obj);
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();	
 	
 	@Override
 	@DeleteMapping(value = "/{id}")

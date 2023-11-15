@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,6 +74,37 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 		URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(servico.getId()).toUri();
 		return ResponseEntity.created(location).body(mapper.toDTO(servico));
 	}
+
+	@PatchMapping(value = "/{id}")
+    	@Operation(summary = "Atualização parcial de um serviço")
+    	public ResponseEntity<ServicoDTO> patch(@PathVariable Long id, @Valid @RequestBody ServicoDTO partialUpdate) {
+        	Servico existingServico = service.findById(id);
+
+        	if (existingServico == null) {
+            		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        	}
+
+	        // Aplicar atualizações parciais nos campos não nulos do objeto existente
+        	if (partialUpdate.getNome() != null) {
+            		existingServico.setNome(partialUpdate.getNome());
+        	}
+
+		if (partialUpdate.getPreco() != null) {
+            		existingServico.setPreco(partialUpdate.getPreco());
+        	}
+
+		if (partialUpdate.getTipo() != null) {
+            		existingServico.setTipo(partialUpdate.getTipo());
+        	}
+
+	        // Adicione mais verificações e atualizações para outros campos conforme necessário
+
+	        // Salvar o objeto atualizado
+        	service.update(existingServico);
+
+        	return ResponseEntity.ok(mapper.toDTO(existingServico));
+    	}
+
 	
 	@Override
 	@PutMapping
@@ -81,8 +114,7 @@ public class ServicoController implements ControllerInterface<ServicoDTO>{
 		if(service.update(mapper.toEntity(obj))) {
 			return ResponseEntity.ok(obj);
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-	}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();	
 	
 	@Override
 	@DeleteMapping(value = "/{id}")

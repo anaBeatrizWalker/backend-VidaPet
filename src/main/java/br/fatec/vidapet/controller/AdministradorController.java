@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,6 +84,48 @@ public class AdministradorController implements ControllerInterface<Administrado
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+
+	@PatchMapping(value = "/{id}")
+    	@Operation(summary = "Atualização parcial de um serviço")
+    	public ResponseEntity<AdministradorDTO> patch(@PathVariable Long id, @Valid @RequestBody AdministradorDTO partialUpdate) {
+        	Administrador existingAdministrador = service.findById(id);
+
+        	if (existingAdministrador == null) {
+            		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        	}
+
+	        // Aplicar atualizações parciais nos campos não nulos do objeto existente
+        	if (partialUpdate.getNome() != null) {
+            		existingAdministrador.setNome(partialUpdate.getNome());
+        	}
+
+		if (partialUpdate.getEmail() != null) {
+            		existingAdministrador.setEmail(partialUpdate.getEmail());
+        	}
+
+		if (partialUpdate.getCpf() != null) {
+            		existingAdministrador.setCpf(partialUpdate.getCpf());
+        	}
+
+		if (partialUpdate.getPerfil() != null) {
+            		existingAdministrador.setPerfil(partialUpdate.getPerfil());
+        	}
+
+		if (partialUpdate.getLogin() != null) {
+            		existingAdministrador.setLogin(partialUpdate.getLogin());
+        	}
+
+		if (partialUpdate.getSenha() != null) {
+            		existingAdministrador.setSenha(partialUpdate.getSenha());
+        	}
+
+	        // Adicione mais verificações e atualizações para outros campos conforme necessário
+
+	        // Salvar o objeto atualizado
+        	service.update(existingAdministrador);
+
+        	return ResponseEntity.ok(mapper.toDTO(existingAdministrador));
+    	}
 	
 	@Override
 	@DeleteMapping(value = "/{id}")

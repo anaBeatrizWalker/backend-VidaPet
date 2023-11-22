@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -94,6 +95,48 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO>{
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+
+	@PatchMapping(value = "/{id}")
+    	@Operation(summary = "Atualização parcial de um serviço")
+    	public ResponseEntity<AtendenteDTO> patch(@PathVariable Long id, @Valid @RequestBody AtendenteDTO partialUpdate) {
+        	Atendente existingAtendente = service.findById(id);
+
+        	if (existingAtendente == null) {
+            		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        	}
+
+	        // Aplicar atualizações parciais nos campos não nulos do objeto existente
+        	if (partialUpdate.getNome() != null) {
+            		existingAtendente.setNome(partialUpdate.getNome());
+        	}
+
+		if (partialUpdate.getEmail() != null) {
+            		existingAtendente.setEmail(partialUpdate.getEmail());
+        	}
+
+		if (partialUpdate.getCpf() != null) {
+            		existingAtendente.setCpf(partialUpdate.getCpf());
+        	}
+
+		if (partialUpdate.getPerfil() != null) {
+            		existingAtendente.setPerfil(partialUpdate.getPerfil());
+        	}
+
+		if (partialUpdate.getLogin() != null) {
+            		existingAtendente.setLogin(partialUpdate.getLogin());
+        	}
+
+		if (partialUpdate.getSenha() != null) {
+            		existingAtendente.setSenha(partialUpdate.getSenha());
+        	}
+
+	        // Adicione mais verificações e atualizações para outros campos conforme necessário
+
+	        // Salvar o objeto atualizado
+        	service.update(existingAtendente);
+
+        	return ResponseEntity.ok(mapper.toDTO(existingAtendente));
+    	}
 	
 	@Override
 	@DeleteMapping(value = "/{id}")

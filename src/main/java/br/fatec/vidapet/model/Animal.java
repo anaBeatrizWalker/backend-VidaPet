@@ -24,55 +24,55 @@ import lombok.Setter;
 public class Animal extends AbstractEntity {
 	@Getter
 	private static final long serialVersionUID = 1L;
-	
+
 	@Getter
 	@Setter
-	@Column(length=50, nullable=false)
+	@Column(length = 50, nullable = false)
 	private String nome;
-	
+
 	@Getter
 	@Setter
-	@Column(length=50, nullable=false)
+	@Column(length = 50, nullable = false)
 	private String especie;
-	
+
 	@Getter
 	@Setter
-	@Column(length=50, nullable=false)
+	@Column(length = 50, nullable = false)
 	private String raça;
-	
+
 	@Getter
 	@Setter
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private SexoAnimal sexo;
-	
+
 	@Getter
 	@Setter
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Calendar dataDeNascimento;
-	
+
 	@Getter
 	@Setter
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private PorteAnimal porte;
-	
+
 	@Getter
 	@Setter
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private PelagemAnimal pelagem;
-	
+
 	@Getter
 	@Setter
 	private Float peso;
-	
-	//foto;
-	
+
+	// foto;
+
 	@Getter(onMethod = @__(@JsonIgnore))
-	@Setter(onMethod = @__(@JsonProperty)) 
-	@ManyToOne(fetch= FetchType.LAZY)
+	@Setter(onMethod = @__(@JsonProperty))
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 }

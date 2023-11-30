@@ -28,39 +28,39 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AnimalDTO {
 	private Long id;
-	
+
 	@NotBlank
 	@Size(min = 3, max = 50)
 	private String nome;
-	
-	@NotBlank 
+
+	// @NotBlank
 	@Size(min = 3, max = 50)
 	private String especie;
-	
+
 	@Size(min = 3, max = 50)
 	private String raça;
-	
+
 	@NotNull
 	private SexoAnimal sexo;
-	
+
 	@NotNull
 	@Past
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Calendar dataDeNascimento;
-	
+
 	@NotNull
 	private PorteAnimal porte;
-	
+
 	@NotNull
 	private PelagemAnimal pelagem;
-	
+
 	@Min(1)
 	@Max(100)
 	private Float peso;
-	
-	//foto;
-	
+
+	// foto;
+
 	@NotNull
 	@Getter(onMethod = @__(@JsonIgnore))
 	@Setter(onMethod = @__(@JsonProperty))

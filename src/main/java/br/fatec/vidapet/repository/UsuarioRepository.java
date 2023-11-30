@@ -7,5 +7,5 @@ import br.fatec.vidapet.model.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-	Usuario findByLogin(String login);
+	// Usuario findByLogin(String login);
 }

@@ -20,11 +20,11 @@ import lombok.Setter;
 @DiscriminatorValue("cliente")
 public class Cliente extends Usuario {
 	private static final long serialVersionUID = 1L;
-	
-	@Column(length = 11, nullable=false)
+
+	@Column(length = 11, nullable = false)
 	private String telefone;
-	
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
-	@JoinColumn(name="cliente_id")
+
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "cliente_id")
 	private List<Animal> animais;
 }

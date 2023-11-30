@@ -1,6 +1,6 @@
 package br.fatec.vidapet.model;
 
-import java.util.HashSet; 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,20 +24,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name = "tipo")
-public abstract class Usuario extends AbstractEntity{
+public abstract class Usuario extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
-	
-	@Column(length=70, nullable=false)
+
+	@Column(length = 70, nullable = false)
 	private String nome;
-	
-	@Column(length = 70, nullable=false, unique = true)
+
+	@Column(length = 70, nullable = true)
 	private String email;
-	
-	@Column(length = 11, nullable=false, unique = true)
-	private String cpf;
-	
+
+	@Column(length = 11, nullable = true)
+	private String documento;
+
+	@Column(nullable = true)
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "perfil")
 	private Set<Integer> perfil = new HashSet<>();
@@ -54,11 +55,13 @@ public abstract class Usuario extends AbstractEntity{
 	public void addPerfil(TipoPerfil perfil) {
 		this.perfil.add(perfil.getCod());
 	}
-	
-	@Column(length = 20, unique = true) 
+
+	@Column(length = 20, nullable = true)
 	private String login;
 
+	@Column(nullable = true)
 	@Getter(onMethod = @__(@JsonIgnore))
 	@Setter(onMethod = @__(@JsonProperty))
 	private String senha;
+
 }

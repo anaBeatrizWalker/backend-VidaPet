@@ -4,7 +4,7 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,14 +17,14 @@ import io.swagger.v3.oas.annotations.Operation;
 @RestController
 @RequestMapping("/upload")
 public class UploadController {
-	
+
 	@Autowired
 	private S3Service s3Service;
-	
+
 	@PostMapping
-	//@PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
+	// @PreAuthorize("hasAnyRole('ADMIN', 'ATENDENTE', 'FUNCIONARIO')")
 	@Operation(summary = "Upload de imagem na nuvem")
-	public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file){
+	public ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file) {
 		URI uri = s3Service.upload(file);
 		return ResponseEntity.created(uri).build();
 	}

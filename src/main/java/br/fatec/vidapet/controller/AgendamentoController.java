@@ -94,7 +94,7 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 
 	@PatchMapping(value = "/{id}")
 	@Operation(summary = "Atualização parcial de um agendamento")
-	public ResponseEntity<AgendmentoDTO> patch(@PathVariable Long id,
+	public ResponseEntity<AgendamentoDTO> patch(@PathVariable Long id,
 			@Valid @RequestBody AgendamentoDTO partialUpdate) {
 		Administrador existingAgendamento = service.findById(id);
 

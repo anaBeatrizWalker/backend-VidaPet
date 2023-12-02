@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +24,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.vidapet.dto.AgendamentoDTO;
 import br.fatec.vidapet.mapper.AgendamentoMapper;
 import br.fatec.vidapet.model.Agendamento;
-// import br.fatec.vidapet.model.Animal;
-// import br.fatec.vidapet.model.Funcionario;
+import br.fatec.vidapet.model.Animal;
+import br.fatec.vidapet.model.Funcionario;
 import br.fatec.vidapet.service.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -90,6 +90,42 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 			return ResponseEntity.ok(obj);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+
+	@PatchMapping(value = "/{id}")
+	@Operation(summary = "Atualização parcial de um agendamento")
+	public ResponseEntity<AgendmentoDTO> patch(@PathVariable Long id,
+			@Valid @RequestBody AgendamentoDTO partialUpdate) {
+		Administrador existingAgendamento = service.findById(id);
+
+		if (existingAgendamento == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+
+		// Aplicar atualizações parciais nos campos não nulos do objeto existente
+		if (partialUpdate.getFuncionario() != null) {
+			existingAgendamento.setFuncionario(partialUpdate.getFuncionario());
+		}
+
+		 if (partialUpdate.getObservacao() != null) {
+		 existingAgendamento.setObservacao(partialUpdate.getObservacao());
+		 }
+
+		 if (partialUpdate.getData() != null) {
+		 existingAgendamento.setData(partialUpdate.getData());
+		 }
+
+		 if (partialUpdate.getHora() != null) {
+		 existingAgendamento.setHora(partialUpdate.getHora());
+		 }
+
+		 if (partialUpdate.getAnimal() != null) {
+		 existingAgendamento.setAnimal(partialUpdate.getAnimal());
+		 }
+
+		service.update(existingAgendamento);
+
+		return ResponseEntity.ok(mapper.toDTO(existingAgendamento));
 	}
 
 	@Override

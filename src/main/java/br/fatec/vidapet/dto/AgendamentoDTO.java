@@ -20,26 +20,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AgendamentoDTO{
+public class AgendamentoDTO {
 	private Long id;
-	
+
 	@NotNull
 	private Funcionario funcionario;
-	
+
 	@Size(min = 3, max = 100)
 	private String observacao;
-	
+
 	@NotNull
 	@Future
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Calendar data;
-	
+
 	@NotNull
 	@Temporal(TemporalType.TIME)
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm", timezone="GMT-3")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "GMT-3")
 	private Date horario;
-	
+
 	@NotNull
 	private Animal animal;
 }

@@ -24,8 +24,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.vidapet.dto.AgendamentoDTO;
 import br.fatec.vidapet.mapper.AgendamentoMapper;
 import br.fatec.vidapet.model.Agendamento;
-import br.fatec.vidapet.model.Animal;
-import br.fatec.vidapet.model.Funcionario;
 import br.fatec.vidapet.service.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -96,32 +94,32 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 	@Operation(summary = "Atualização parcial de um agendamento")
 	public ResponseEntity<AgendamentoDTO> patch(@PathVariable Long id,
 			@Valid @RequestBody AgendamentoDTO partialUpdate) {
-		Administrador existingAgendamento = service.findById(id);
+
+		Agendamento existingAgendamento = service.findById(id);
 
 		if (existingAgendamento == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
-		// Aplicar atualizações parciais nos campos não nulos do objeto existente
 		if (partialUpdate.getFuncionario() != null) {
 			existingAgendamento.setFuncionario(partialUpdate.getFuncionario());
 		}
 
-		 if (partialUpdate.getObservacao() != null) {
-		 existingAgendamento.setObservacao(partialUpdate.getObservacao());
-		 }
+		if (partialUpdate.getObservacao() != null) {
+			existingAgendamento.setObservacao(partialUpdate.getObservacao());
+		}
 
-		 if (partialUpdate.getData() != null) {
-		 existingAgendamento.setData(partialUpdate.getData());
-		 }
+		if (partialUpdate.getData() != null) {
+			existingAgendamento.setData(partialUpdate.getData());
+		}
 
-		 if (partialUpdate.getHorario() != null) {
-		 existingAgendamento.setHorario(partialUpdate.getHorario());
-		 }
+		if (partialUpdate.getHorario() != null) {
+			existingAgendamento.setHorario(partialUpdate.getHorario());
+		}
 
-		 if (partialUpdate.getAnimal() != null) {
-		 existingAgendamento.setAnimal(partialUpdate.getAnimal());
-		 }
+		if (partialUpdate.getAnimal() != null) {
+			existingAgendamento.setAnimal(partialUpdate.getAnimal());
+		}
 
 		service.update(existingAgendamento);
 

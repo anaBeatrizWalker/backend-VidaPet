@@ -101,13 +101,13 @@ public class AdministradorController implements ControllerInterface<Administrado
 			existingAdministrador.setNome(partialUpdate.getNome());
 		}
 
-		 if (partialUpdate.getEmail() != null) {
-		 existingAdministrador.setEmail(partialUpdate.getEmail());
-		 }
+		if (partialUpdate.getEmail() != null) {
+			existingAdministrador.setEmail(partialUpdate.getEmail());
+		}
 
-		 if (partialUpdate.getDocumento() != null) {
-		 existingAdministrador.setDocumento(partialUpdate.getDocumento());
-		 }
+		if (partialUpdate.getDocumento() != null) {
+			existingAdministrador.setDocumento(partialUpdate.getDocumento());
+		}
 
 		// if (partialUpdate.getPerfil() != null) {
 		// existingAdministrador.setPerfil(partialUpdate.getPerfil());

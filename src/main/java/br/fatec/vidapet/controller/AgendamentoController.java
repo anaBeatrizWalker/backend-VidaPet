@@ -115,8 +115,8 @@ public class AgendamentoController implements ControllerInterface<AgendamentoDTO
 		 existingAgendamento.setData(partialUpdate.getData());
 		 }
 
-		 if (partialUpdate.getHora() != null) {
-		 existingAgendamento.setHora(partialUpdate.getHora());
+		 if (partialUpdate.getHorario() != null) {
+		 existingAgendamento.setHorario(partialUpdate.getHorario());
 		 }
 
 		 if (partialUpdate.getAnimal() != null) {

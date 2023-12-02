@@ -32,41 +32,42 @@ public class Animal extends AbstractEntity {
 
 	@Getter
 	@Setter
-	@Column(length = 50, nullable = false)
+	@Column(length = 50, nullable = true)
 	private String especie;
 
 	@Getter
 	@Setter
-	@Column(length = 50, nullable = false)
+	@Column(length = 50, nullable = true)
 	private String raca;
 
 	@Getter
 	@Setter
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Enumerated(EnumType.STRING)
 	private SexoAnimal sexo;
 
 	@Getter
 	@Setter
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Calendar dataDeNascimento;
 
 	@Getter
 	@Setter
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Enumerated(EnumType.STRING)
 	private PorteAnimal porte;
 
 	@Getter
 	@Setter
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Enumerated(EnumType.STRING)
 	private PelagemAnimal pelagem;
 
 	@Getter
 	@Setter
+	@Column(nullable = true)
 	private Float peso;
 
 	// foto;

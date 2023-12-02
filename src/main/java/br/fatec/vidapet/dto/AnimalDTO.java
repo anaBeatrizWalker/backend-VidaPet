@@ -38,7 +38,7 @@ public class AnimalDTO {
 	private String especie;
 
 	@Size(min = 3, max = 50)
-	private String raça;
+	private String raca;
 
 	@NotNull
 	private SexoAnimal sexo;

@@ -38,7 +38,7 @@ public class Animal extends AbstractEntity {
 	@Getter
 	@Setter
 	@Column(length = 50, nullable = false)
-	private String raça;
+	private String raca;
 
 	@Getter
 	@Setter

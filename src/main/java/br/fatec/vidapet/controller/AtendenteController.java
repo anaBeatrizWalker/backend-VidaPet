@@ -111,13 +111,13 @@ public class AtendenteController implements ControllerInterface<AtendenteDTO> {
 			existingAtendente.setNome(partialUpdate.getNome());
 		}
 
-		// if (partialUpdate.getEmail() != null) {
-		// existingAtendente.setEmail(partialUpdate.getEmail());
-		// }
+		 if (partialUpdate.getEmail() != null) {
+		 existingAtendente.setEmail(partialUpdate.getEmail());
+		 }
 
-		// if (partialUpdate.getCpf() != null) {
-		// existingAtendente.setCpf(partialUpdate.getCpf());
-		// }
+		 if (partialUpdate.getDocumento() != null) {
+		 existingAtendente.setDocumento(partialUpdate.getDocumento());
+		 }
 
 		// if (partialUpdate.getPerfil() != null) {
 		// existingAtendente.setPerfil(partialUpdate.getPerfil());

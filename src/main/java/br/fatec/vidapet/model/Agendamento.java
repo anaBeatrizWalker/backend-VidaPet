@@ -25,7 +25,7 @@ import lombok.Setter;
 public class Agendamento extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne(cascade = { CascadeType.ALL })
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Funcionario funcionario;
 
 	@Column(length = 100)

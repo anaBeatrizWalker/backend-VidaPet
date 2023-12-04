@@ -13,6 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ import lombok.Setter;
 public class Agendamento extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
 	private Funcionario funcionario;
 
 	@Column(length = 100)
@@ -36,9 +37,15 @@ public class Agendamento extends AbstractEntity {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Calendar data;
 
+	// @Column(nullable = false)
+	// @Temporal(TemporalType.TIME)
+	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone =
+	// "UTC-3")
+	// private Date horario;
+
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIME)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "GMT-3")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date horario;
 
 	@ManyToOne(fetch = FetchType.EAGER)
